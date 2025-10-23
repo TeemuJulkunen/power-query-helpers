@@ -37,12 +37,12 @@ let
     #"Lajiteltu rivit" = Table.Sort(#"Changed Type2",{{"Päivämäärä", Order.Descending}}),
     #"Added mmyyyy" = Table.AddColumn(#"Lajiteltu rivit", "kkvvvv", each Number.ToText([Kuukauden numero]) & Number.ToText([Kalenteri vuosi])),
     #"Muutettu tyyppi" = Table.TransformColumnTypes(#"Added mmyyyy",{{"kkvvvv", type text}}),
-  #"Added quartile number" = Table.TransformColumnTypes(Table.AddColumn(#"Muutettu tyyppi", "Vuosineljännes numero", each Date.QuarterOfYear([Päivämäärä])), {{"Vuosineljännes numero", Int64.Type}}),
-  #"Added quartile" = Table.TransformColumnTypes(Table.AddColumn(#"Added quartile number", "Vuosineljännes", each "Q" & Number.ToText([Vuosineljännes numero])), {{"Vuosineljännes", type text}}),
-  #"Sarakkeesta tehty kaksoiskappale" = Table.DuplicateColumn(#"Added quartile", "Kalenteri kausi (kk/vvvv)", "Kalenteri kausi (kk/vvvv) – kopio"),
-  #"Jaa sarake osiin erottimen mukaan" = Table.SplitColumn(#"Sarakkeesta tehty kaksoiskappale", "Kalenteri kausi (kk/vvvv) – kopio", Splitter.SplitTextByDelimiter("/"), {"Kalenteri kausi (kk/vvvv) – kopio.1", "Kalenteri kausi (kk/vvvv) – kopio.2"}),
-  #"Added yyyymm" = Table.TransformColumnTypes(Table.AddColumn(#"Jaa sarake osiin erottimen mukaan", "vvvvkk", each [#"Kalenteri kausi (kk/vvvv) – kopio.2"] & [#"Kalenteri kausi (kk/vvvv) – kopio.1"]), {{"vvvvkk", Int64.Type}}),
-  #"Poistettu sarakkeet" = Table.RemoveColumns(#"Added yyyymm", {"Kalenteri kausi (kk/vvvv) – kopio.2", "Kalenteri kausi (kk/vvvv) – kopio.1"}),
+    #"Added quartile number" = Table.TransformColumnTypes(Table.AddColumn(#"Muutettu tyyppi", "Vuosineljännes numero", each Date.QuarterOfYear([Päivämäärä])), {{"Vuosineljännes numero", Int64.Type}}),
+    #"Added quartile" = Table.TransformColumnTypes(Table.AddColumn(#"Added quartile number", "Vuosineljännes", each "Q" & Number.ToText([Vuosineljännes numero])), {{"Vuosineljännes", type text}}),
+    #"Sarakkeesta tehty kaksoiskappale" = Table.DuplicateColumn(#"Added quartile", "Kalenteri kausi (kk/vvvv)", "Kalenteri kausi (kk/vvvv) – kopio"),
+    #"Jaa sarake osiin erottimen mukaan" = Table.SplitColumn(#"Sarakkeesta tehty kaksoiskappale", "Kalenteri kausi (kk/vvvv) – kopio", Splitter.SplitTextByDelimiter("/"), {"Kalenteri kausi (kk/vvvv) – kopio.1", "Kalenteri kausi (kk/vvvv) – kopio.2"}),
+    #"Added yyyymm" = Table.TransformColumnTypes(Table.AddColumn(#"Jaa sarake osiin erottimen mukaan", "vvvvkk", each [#"Kalenteri kausi (kk/vvvv) – kopio.2"] & [#"Kalenteri kausi (kk/vvvv) – kopio.1"]), {{"vvvvkk", Int64.Type}}),
+    #"Poistettu sarakkeet" = Table.RemoveColumns(#"Added yyyymm", {"Kalenteri kausi (kk/vvvv) – kopio.2", "Kalenteri kausi (kk/vvvv) – kopio.1"}),
     #"Added quartile/year" = Table.TransformColumnTypes(Table.AddColumn(#"Poistettu sarakkeet", "vuosineljännes_vuosi", each [Vuosineljännes] & "/" & Number.ToText([Kalenteri vuosi])), {{"vuosineljännes_vuosi", type text}}),
     #"Added vvvv/quartile number" = Table.TransformColumnTypes(Table.AddColumn(#"Added quartile/year", "vvvvq", each Number.ToText([Kalenteri vuosi]) & Number.ToText([Vuosineljännes numero])), {{"vvvvq", Int64.Type}})
 in
