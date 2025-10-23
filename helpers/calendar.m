@@ -1,6 +1,6 @@
 // ------------------------------------------------------------
 // Power Query Data Quality Toolkit
-// (c) 2025 [Your Name or Organization]
+// (c) 2025 Teemu Julkunen
 //
 // Licensed under the MIT License:
 // Permission is hereby granted, free of charge, to any person obtaining
